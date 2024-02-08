@@ -1,0 +1,62 @@
+<div class="lg:grid lg:grid-cols-2 lg:gap-x-6 xl:grid-cols-[1fr_1.5fr] mt-8">
+  <div class="hidden place-items-center rounded-xl bg-white lg:grid relative">
+    <app-phone-editor />
+  </div>
+  <form
+    class="grid min-h-[785px] grid-rows-[auto_1fr_auto] rounded-xl bg-white lg:h-[819px] sticky"
+  >
+    <div class="px-6 pb-6 pt-6 sm:px-10 sm:pt-10">
+      <h1 class="text-2xl font-bold text-dark-gray sm:text-[2rem]">
+        Customize your links
+      </h1>
+      <p class="sm:mt-4 text-[#737373]">
+        Add/edit/remove links below and then share all your profiles with the
+        world!
+      </p>
+      <button
+        (click)="addLink()"
+        type="button"
+        class="inline-flex h-[46px] w-full items-center justify-center rounded-lg border border-[#633cff] bg-white px-4 font-semibold text-[#633cff] shadow-sm transition duration-150 ease-in-out hover:bg-[#d1c5f8] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 mt-10"
+      >
+        + Add new link
+      </button>
+    </div>
+    <div class="mb-6 px-5 sm:px-10 overflow-y-scroll">
+      @for( formLink of formLinks; track formLinks; let index = $index;){
+      <app-link-form [index]="index" (removeFormLink)="removeFormLink(index)" />
+      }@empty {
+
+      <div
+        class="flex flex-col w-full bg-gray-50 h-full justify-center items-center rounded-xl"
+      >
+        <img
+          src="../assets/images/illustration-empty.svg"
+          width="251"
+          height="161"
+          alt=""
+          class="mx-auto"
+        />
+        <h2 class="mt-6 text-2xl font-bold sm:mt-10 sm:text-[2rem]">
+          Let's get you started
+        </h2>
+        <p class="mt-6 sm:max-w-[488px] text-center">
+          Use the “Add new link” button to get started. Once you have more than
+          one link, you can reorder and edit them. We're here to help you share
+          your profiles with everyone!
+        </p>
+      </div>
+      }
+    </div>
+
+    <div
+      class="rounded-bl-xl rounded-br-xl border-t border-borders bg-white px-6 pb-4 pt-6 sm:px-10 sm:pb-6 sm:text-right"
+    >
+      <button
+        type="submit"
+        class="inline-flex h-[46px] w-full items-center justify-center rounded-lg border border-transparent bg-[#633cff] px-7 font-semibold text-white transition duration-150 ease-in-out hover:bg-purple-hover-color focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-purple-hover-color disabled:bg-purple-hover-color sm:w-28"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
