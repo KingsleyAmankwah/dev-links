@@ -1,0 +1,7 @@
+.hover-content {
+  display: block;
+}
+
+label:hover .hover-content {
+  display: none;
+}

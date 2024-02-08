@@ -1,0 +1,131 @@
+<div class="lg:grid lg:grid-cols-2 lg:gap-x-6 xl:grid-cols-[1fr_1.5fr] mt-8">
+  <div class="hidden place-items-center rounded-xl bg-white lg:grid relative">
+    <app-phone-editor />
+  </div>
+
+  <form class="grid grid-rows-[auto_1fr_auto] rounded-xl bg-white lg:h-[819px]">
+    <div class="px-6 sm:px-10 sm:pt-10">
+      <h1 class="text-2xl font-bold sm:text-[2rem]">Profile Details</h1>
+      <p class="sm:mt-4">
+        Add your details to create a personal touch to your profile.
+      </p>
+      <div
+        class="mt-10 rounded-xl bg-gray-100 p-5 md:grid md:grid-cols-[2fr_1fr_1fr] md:items-center md:gap-x-6 lg:grid-cols-1 xl:grid-cols-[2fr_1fr_1fr]"
+      >
+        <div><label for="profile_picture">Profile picture</label></div>
+        <label
+          class="relative mt-4 grid h-48 w-48 cursor-pointer place-items-center rounded-xl bg-[#d8cefa] text-[#633cff] md:mt-0"
+          [style.backgroundImage]="'url(' + imageUrl + ')'"
+          ><input
+            type="file"
+            accept=".png,.jpg"
+            class="hidden"
+            id="profile_picture"
+            (change)="onSelectedFile($event)"
+          />
+
+          @if(!imageUrl){
+          <div>
+            <img
+              src="../assets/images/icon-upload-image.svg"
+              width="40"
+              height="40"
+              class="mx-auto"
+              alt=""
+            />
+            <p class="mt-2 font-semibold">+ Upload Image</p>
+          </div>
+          }
+        </label>
+        <p class="mt-6 text-xs md:mt-0 lg:mt-6 xl:mt-0">
+          Image must be below 1024x1024px. Use PNG or JPG format.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-6 px-6 sm:px-10">
+      <div class="rounded-xl bg-gray-100 p-5">
+        <div>
+          <div
+            class="mt-1 block w-full items-center xl:grid xl:grid-cols-[10rem_1fr]"
+          >
+            <label class="block text-xs text-[#737373]" for="first_name"
+              ><span>First name</span></label
+            >
+            <div class="relative mt-2 flex items-center border-0 p-0">
+              <img
+                class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
+                alt=""
+              /><input
+                type="text"
+                class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 px-4"
+                placeholder=".e.g. John"
+                id="first_name"
+              />
+              <div class="absolute right-4" style="display: none">
+                <p class="pointer-events-auto text-sm text-red"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div
+            class="mt-1 block w-full items-center xl:grid xl:grid-cols-[10rem_1fr]"
+          >
+            <label class="block text-xs text-[#737373]" for="last_name"
+              ><span>Last name</span></label
+            >
+            <div class="relative mt-2 flex items-center border-0 p-0">
+              <img
+                class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
+                alt=""
+              /><input
+                type="text"
+                class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 px-4"
+                placeholder="e.g. Doe"
+                id="last_name"
+              />
+              <div class="absolute right-4" style="display: none">
+                <p class="pointer-events-auto text-sm text-red"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div
+            class="mt-1 block w-full items-center xl:grid xl:grid-cols-[10rem_1fr]"
+          >
+            <label class="block text-xs text-[#737373]" for="email"
+              ><span>Email</span></label
+            >
+            <div class="relative mt-2 flex items-center border-0 p-0">
+              <img
+                class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
+                src="../assets/images/icon-email.svg"
+                alt=""
+              /><input
+                type="email"
+                class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
+                placeholder="e.g. alex@email.com"
+                id="email"
+              />
+              <div class="absolute right-4" style="display: none">
+                <p class="pointer-events-auto text-sm text-red"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="mt-6 rounded-bl-xl rounded-br-xl border-t border-borders bg-white px-6 pb-4 pt-6 sm:px-10 sm:pb-6 sm:text-right"
+    >
+      <button
+        type="submit"
+        class="inline-flex h-[46px] w-full items-center justify-center rounded-lg border border-transparent bg-[#633cff] px-7 font-semibold text-white transition duration-150 ease-in-out hover:bg-indigo-400 focus:outline-none sm:w-28"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
