@@ -28,7 +28,7 @@
 
 DevLinks is a link sharing app designed to streamline your sharing experience across various platforms. Whether you're a developer, designer, or tech enthusiast, DevLinks empowers you to curate, organize, and share links effortlessly.
 
-- Live Site URL: <a href="https://rooms-homepage-two.vercel.app/" target="_blank">Demo🚀🔥</a>
+- Live Site URL: <a href="https://dev-links-nine-bice.vercel.app/" target="_blank">Demo🚀🔥</a>
 
 ## :sparkles: Features
 
