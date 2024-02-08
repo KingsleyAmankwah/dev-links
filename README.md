@@ -1,5 +1,4 @@
-<div align="center" id="top"> 
-![dev-link home page](https://github.com/KingsleyAmankwah/dev-links/assets/64941442/7aa8e12a-d9f1-47a5-80c2-83116f646fbf)
+<div align="center" id="top">
 
 &#xa0;
 
@@ -10,8 +9,6 @@
  <h4 >
 	🚧  Dev Links Project is Under construction...  🚧
 </h4>
-
-<a href="https://devlinks.netlify.app">Demo</a>
 
 <hr>
 
@@ -31,6 +28,8 @@
 
 DevLinks is a link sharing app designed to streamline your sharing experience across various platforms. Whether you're a developer, designer, or tech enthusiast, DevLinks empowers you to curate, organize, and share links effortlessly.
 
+- Live Site URL: <a href="https://rooms-homepage-two.vercel.app/" target="_blank">Demo🚀🔥</a>
+
 ## :sparkles: Features
 
 :heavy_check_mark: Create, read, update, delete links and see previews in the mobile mockup;\
@@ -38,6 +37,10 @@ DevLinks is a link sharing app designed to streamline your sharing experience ac
 :heavy_check_mark: Preview their devlinks profile and copy the link to their clipboard;\
 :heavy_check_mark: optimal responsive user interface;\
 :heavy_check_mark: Drag and drop links to reorder them;
+
+### Screenshot
+
+![screenshot](https://github.com/KingsleyAmankwah/dev-links/assets/64941442/7aa8e12a-d9f1-47a5-80c2-83116f646fbf)
 
 ## :rocket: Technologies
 
