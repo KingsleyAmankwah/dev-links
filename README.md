@@ -1,5 +1,5 @@
 <div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Dev Links" />
+![dev-link home page](https://github.com/KingsleyAmankwah/dev-links/assets/64941442/7aa8e12a-d9f1-47a5-80c2-83116f646fbf)
 
 &#xa0;
 
