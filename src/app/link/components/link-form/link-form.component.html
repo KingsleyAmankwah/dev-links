@@ -1,0 +1,73 @@
+<div
+  class="grid grid-cols-[auto_1fr_auto] items-center gap-x-2 rounded-xl bg-gray-50 p-5 my-4"
+>
+  <span class="cursor-pointer"
+    ><img
+      src="../assets/images/icon-drag-and-drop.svg"
+      class="pointer-events-none"
+      width="12"
+      height="6"
+      alt="Click to drag and drop links."
+  /></span>
+  <p class="select-none text-[#737373] font-bold">Link #{{ index + 1 }}</p>
+  <button class="text-right" type="button" (click)="onRemoveFormLinkClicked()">
+    Remove
+  </button>
+  <div class="col-span-full mt-3">
+    <div class="relative">
+      <p class="text-xs">Platform</p>
+      <label
+        class="relative mt-1 flex h-12 w-full items-center justify-between rounded-lg border border-borders bg-white px-4"
+        (click)="onSelectFormClicked()"
+        ><p class="text-dark-gray/50">Select platform</p>
+
+        @if(formSelected){
+
+        <svg
+          class="transform rotate-180"
+          width="14"
+          height="9"
+          fill="none"
+          viewBox="0 0 14 9"
+        >
+          <path stroke="#633CFF" stroke-width="2" d="m1 1 6 6 6-6"></path>
+        </svg>
+        }@else {
+
+        <svg
+          class="transform"
+          width="14"
+          height="9"
+          fill="none"
+          viewBox="0 0 14 9"
+        >
+          <path stroke="#633CFF" stroke-width="2" d="m1 1 6 6 6-6"></path></svg
+        ><button type="button" class="absolute inset-0 h-full w-full"></button>
+        }
+
+        <div class="absolute right-10" style="display: none">
+          <p class="pointer-events-none text-sm text-red"></p></div
+      ></label>
+    </div>
+  </div>
+  <div class="col-span-full">
+    <div class="my-2 block w-full">
+      <label class="block text-xs" for="link_0"><span>Link</span></label>
+      <div class="relative flex items-center border-0 p-0">
+        <img
+          class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
+          src="../assets/images/icon-link.svg"
+          alt=""
+        /><input
+          type="text"
+          class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
+          placeholder="e.g. https://www.github.com/johnappleseed"
+          id="link_0"
+        />
+        <div class="absolute right-4" style="display: none">
+          <p class="pointer-events-auto text-sm text-red"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
