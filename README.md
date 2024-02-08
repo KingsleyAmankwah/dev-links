@@ -4,8 +4,6 @@
 
 </div>
 
-[dev-link home page] (https://github.com/KingsleyAmankwah/dev-links/assets/64941442/7aa8e12a-d9f1-47a5-80c2-83116f646fbf)
-
 <h1 align="center">Dev Links</h1>
 
  <h4 >
