@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './phone-editor.component.html',
-  styleUrl: './phone-editor.component.css'
+  styleUrl: './phone-editor.component.css',
 })
-export class PhoneEditorComponent {
-
-}
+export class PhoneEditorComponent {}
