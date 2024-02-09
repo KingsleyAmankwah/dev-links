@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { formLinks } from '../../interfaces';
+import { CdkDropListGroup, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-link-form',
   standalone: true,
-  imports: [],
+  imports: [CdkDropListGroup, CdkDrag, CdkDropList],
   templateUrl: './link-form.component.html',
   styleUrl: './link-form.component.css',
 })
