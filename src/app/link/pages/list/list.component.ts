@@ -3,11 +3,19 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LinkFormComponent } from '../../components/link-form/link-form.component';
 import { formLinks } from '../../interfaces';
 import { PhoneEditorComponent } from '../../components/phone-editor/phone-editor.component';
+import { CdkDropListGroup, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [NavbarComponent, LinkFormComponent, PhoneEditorComponent],
+  imports: [
+    NavbarComponent,
+    LinkFormComponent,
+    PhoneEditorComponent,
+    CdkDropListGroup,
+    CdkDrag,
+    CdkDropList,
+  ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })
