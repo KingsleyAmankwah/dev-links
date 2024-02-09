@@ -3,7 +3,11 @@
     <app-phone-editor />
   </div>
 
-  <form class="grid grid-rows-[auto_1fr_auto] rounded-xl bg-white lg:h-[819px]">
+  <form
+    class="grid grid-rows-[auto_1fr_auto] rounded-xl bg-white lg:h-[819px]"
+    [formGroup]="profileForm"
+    (ngSubmit)="onSave()"
+  >
     <div class="px-6 sm:px-10 sm:pt-10">
       <h1 class="text-2xl font-bold sm:text-[2rem]">Profile Details</h1>
       <p class="sm:mt-4">
@@ -14,13 +18,14 @@
       >
         <div><label for="profile_picture">Profile picture</label></div>
         <label
-          class="relative mt-4 grid h-48 w-48 cursor-pointer place-items-center rounded-xl bg-[#d8cefa] text-[#633cff] md:mt-0"
+          class="relative mt-4 grid h-48 w-48 cursor-pointer bg-cover bg-center bg-no-repeat place-items-center rounded-xl bg-[#d8cefa] text-[#633cff] md:mt-0"
           [style.backgroundImage]="'url(' + imageUrl + ')'"
           ><input
             type="file"
             accept=".png,.jpg"
             class="hidden"
             id="profile_picture"
+            formControlName="profileImage"
             (change)="onSelectedFile($event)"
           />
 
@@ -61,6 +66,7 @@
                 class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 px-4"
                 placeholder=".e.g. John"
                 id="first_name"
+                formControlName="firstName"
               />
               <div class="absolute right-4" style="display: none">
                 <p class="pointer-events-auto text-sm text-red"></p>
@@ -84,6 +90,7 @@
                 class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 px-4"
                 placeholder="e.g. Doe"
                 id="last_name"
+                formControlName="lastName"
               />
               <div class="absolute right-4" style="display: none">
                 <p class="pointer-events-auto text-sm text-red"></p>
@@ -108,6 +115,7 @@
                 class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
                 placeholder="e.g. alex@email.com"
                 id="email"
+                formControlName="email"
               />
               <div class="absolute right-4" style="display: none">
                 <p class="pointer-events-auto text-sm text-red"></p>
