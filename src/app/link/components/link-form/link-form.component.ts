@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
 import { formLinks } from '../../interfaces';
 import { CdkDropListGroup, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { PLATFORMS } from '../../platforms';
 
 @Component({
   selector: 'app-link-form',
@@ -13,15 +14,23 @@ export class LinkFormComponent {
   @Input() link!: formLinks;
   @Input() index!: number;
 
+  platforms = PLATFORMS;
+  showPlatforms = false;
+  selectedPlatform!: { id: Number; name: string; ImageURL: string };
+
   @Output() removeFormLink = new EventEmitter<number>();
-  formSelected = false;
 
   onRemoveFormLinkClicked() {
     this.removeFormLink.emit(this.index);
   }
 
   onSelectFormClicked() {
-    this.formSelected = !this.formSelected;
-    // console.log('Form selected');
+    this.showPlatforms = !this.showPlatforms;
+  }
+
+  onPlatformClicked(platform: { id: number; name: string; ImageURL: string }) {
+    console.log('platform', platform);
+    this.selectedPlatform = platform;
+    this.showPlatforms = false;
   }
 }
