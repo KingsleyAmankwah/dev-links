@@ -3,7 +3,13 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LinkFormComponent } from '../../components/link-form/link-form.component';
 import { formLinks } from '../../interfaces';
 import { PhoneEditorComponent } from '../../components/phone-editor/phone-editor.component';
-import { CdkDropListGroup, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import {
+  CdkDropListGroup,
+  CdkDrag,
+  CdkDropList,
+  CdkDragDrop,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-list',
@@ -38,5 +44,9 @@ export class ListComponent {
   removeFormLink(index: number) {
     this.formLinks.splice(index, 1);
     this.showLinkPreviews.splice(index, 1);
+  }
+
+  drop(event: CdkDragDrop<formLinks[]>): void {
+    moveItemInArray(this.formLinks, event.previousIndex, event.currentIndex);
   }
 }
