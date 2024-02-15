@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LinkFormComponent } from '../../components/link-form/link-form.component';
 import { formLinks } from '../../interfaces';
@@ -10,11 +10,13 @@ import {
   CdkDragDrop,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list',
   standalone: true,
   imports: [
+    CommonModule,
     NavbarComponent,
     LinkFormComponent,
     PhoneEditorComponent,
@@ -28,7 +30,6 @@ import {
 export class ListComponent {
   formLinks: formLinks[] = [];
   linkCounter = 0;
-  // showLinkPreview = false;
   showLinkPreviews: boolean[] = [];
 
   addLink() {
@@ -47,6 +48,13 @@ export class ListComponent {
   }
 
   drop(event: CdkDragDrop<formLinks[]>): void {
-    moveItemInArray(this.formLinks, event.previousIndex, event.currentIndex);
+    console.log('Dropped', event);
+    const updatedFormLinks = [...this.formLinks];
+    moveItemInArray(updatedFormLinks, event.previousIndex, event.currentIndex);
+    this.formLinks = updatedFormLinks;
+  }
+
+  trackByFn(index: number, item: formLinks) {
+    return item.id;
   }
 }
