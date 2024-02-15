@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: "Nunito Sans";
+  font-style: normal;
+}
+
 .btn-spinner,
 .btn-spinner:after {
   border-radius: 50%;
