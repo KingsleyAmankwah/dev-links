@@ -5,31 +5,55 @@
       Let's get you started sharing your links!
     </p>
 
-    <form>
-      <app-input
-        label="Email Address"
-        name="email"
-        formControlName="email"
-        placeholder="e.g.alex@gmail.com"
-        inputIcon="../assets/images/icon-email.svg"
-      />
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group my-2 flex flex-col w-full">
+        <label class="text-[12px] text-[#333333] pb-2"> Full Name </label>
+        <div class="relative flex">
+          <img
+            src="../assets/images/icon-changes-saved.svg"
+            class="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2"
+          />
+          <input
+            class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
+            autocomplete="off"
+            placeholder="Enter your name"
+            formControlName="name"
+          />
+        </div>
+      </div>
+      <div class="form-group my-2 flex flex-col w-full">
+        <label class="text-[12px] text-[#333333] pb-2"> Email </label>
+        <div class="relative flex">
+          <img
+            src="../assets/images/icon-email.svg"
+            class="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2"
+          />
+          <input
+            class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
+            autocomplete="off"
+            placeholder="Enter your email"
+            formControlName="email"
+          />
+        </div>
+      </div>
 
-      <app-input
-        label="Password"
-        name="email"
-        formControlName="email"
-        placeholder="Enter your Password"
-        inputIcon="../assets/images/icon-password.svg"
-      />
-      <app-input
-        label="Confirm password"
-        name="password"
-        formControlName="confirmPassword"
-        placeholder="Confirm your Password"
-        inputIcon="../assets/images/icon-password.svg"
-      />
+      <div class="form-group my-2 flex flex-col w-full">
+        <label class="text-[12px] text-[#333333] pb-2"> Password </label>
+        <div class="relative flex">
+          <img
+            src="../assets/images/icon-password.svg"
+            class="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2"
+          />
+          <input
+            class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
+            autocomplete="off"
+            placeholder="Enter  password"
+            formControlName="password"
+          />
+        </div>
+      </div>
 
-      <small> Password must be at least 8 characters </small>
+      <small> Password must be at least 6 characters </small>
 
       <button
         type="submit"
