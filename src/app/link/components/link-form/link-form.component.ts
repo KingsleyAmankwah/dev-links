@@ -29,7 +29,6 @@ export class LinkFormComponent {
   }
 
   onPlatformClicked(platform: { id: number; name: string; ImageURL: string }) {
-    console.log('platform', platform);
     this.selectedPlatform = platform;
     this.showPlatforms = false;
   }
