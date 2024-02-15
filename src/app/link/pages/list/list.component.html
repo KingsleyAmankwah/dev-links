@@ -1,8 +1,6 @@
 <div
   class="lg:grid lg:grid-cols-2 lg:gap-x-6 xl:grid-cols-[1fr_1.5fr] mt-8"
   cdkDropListGroup
-  cdkDropList
-  (cdkDropListDropped)="drop($event)"
 >
   <div class="hidden place-items-center rounded-xl bg-white lg:grid relative">
     <app-phone-editor />
@@ -26,13 +24,21 @@
         + Add new link
       </button>
     </div>
-    <div class="mb-6 px-5 sm:px-10 overflow-y-scroll">
-      @for( formLink of formLinks; track formLinks; let index = $index;){
-      <app-link-form [index]="index" (removeFormLink)="removeFormLink(index)" />
-      }@empty {
+    <div
+      class="mb-6 px-5 sm:px-10 overflow-y-scroll"
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
+    >
+      <app-link-form
+        *ngFor="let formLink of formLinks; index as i; trackBy: trackByFn"
+        [index]="i"
+        (removeFormLink)="removeFormLink(i)"
+        cdkDrag
+      />
 
       <div
         class="flex flex-col w-full bg-gray-50 h-full justify-center items-center rounded-xl"
+        *ngIf="formLinks.length === 0"
       >
         <img
           src="../assets/images/illustration-empty.svg"
@@ -50,7 +56,6 @@
           your profiles with everyone!
         </p>
       </div>
-      }
     </div>
 
     <div
