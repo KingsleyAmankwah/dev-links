@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -10,7 +11,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+  router = inject(Router);
 
   async signUp(email: string, password: string, name: string): Promise<void> {
     const auth = getAuth();
@@ -39,9 +40,30 @@ export class AuthService {
         email,
         password
       );
+      this.router.navigate(['/link']);
       console.log('User logged in:', userCredential.user);
-    } catch (error) {
-      console.error('Error logging in:', error);
+    } catch (error: any) {
+      // console.error('Error logging in:', error);
+      throw this.getErrorMessage(error.code);
+      // alert(this.getErrorMessage(error.code));
+    }
+  }
+
+  getErrorMessage(code: string): string {
+    switch (code) {
+      case 'auth/invalid-email':
+        return 'The email address is not valid.';
+      case 'auth/user-disabled':
+        return 'The user account has been disabled by an administrator.';
+      case 'auth/user-not-found':
+        return 'No user found with this email.';
+      case 'auth/wrong-password':
+        return 'The password is not correct.';
+      case 'auth/invalid-credential':
+        return 'Invalid login Credentials.';
+      // add more cases for other codes
+      default:
+        return 'An unknown error occurred.';
     }
   }
 }
