@@ -5,3 +5,7 @@
 label:hover .hover-content {
   display: none;
 }
+
+.icon {
+  display: none;
+}
