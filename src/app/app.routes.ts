@@ -17,7 +17,6 @@ export const routes: Routes = [
     path: 'link',
     loadChildren: () =>
       import('./link/link-routing.module').then((m) => m.linkRoutes),
-    canActivate: [authGuard],
   },
 
   {
