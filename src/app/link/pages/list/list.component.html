@@ -6,6 +6,8 @@
     <app-phone-editor />
   </div>
   <form
+    [formGroup]="linkForm"
+    (ngSubmit)="onSubmit()"
     class="grid min-h-[785px] grid-rows-[auto_1fr_auto] rounded-xl bg-white lg:h-[819px] sticky"
   >
     <div class="px-6 pb-6 pt-6 sm:px-10 sm:pt-10">
