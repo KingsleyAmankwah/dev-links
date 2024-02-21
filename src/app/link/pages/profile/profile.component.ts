@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PhoneEditorComponent } from '../../components/phone-editor/phone-editor.component';
 import { userDetails } from '../../../auth/interfaces';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,6 +10,7 @@ import {
   uploadBytesResumable,
 } from '@firebase/storage';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,12 +23,12 @@ export class ProfileComponent {
   userData!: userDetails;
   imageUrl = '';
 
-  constructor(private fb: FormBuilder) {}
+  fb = inject(FormBuilder);
+  userService = inject(UserService);
 
   profileForm = this.fb.group({
     name: [''],
-    email: ['', [Validators.email]],
-    // profileImage: [''],
+    email: [{ value: '', disabled: true }, Validators.required],
   });
 
   ngOnInit() {
@@ -37,24 +38,15 @@ export class ProfileComponent {
       this.profileForm.patchValue({
         name: user.displayName,
         email: user.email,
-        // profileImage: user.photoURL,
       });
       this.imageUrl = user.photoURL || '';
     }
   }
-  // onSelectedFile(e: any) {
-  //   if (e.target.files) {
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(e.target.files[0]);
-  //     reader.onload = (event: any) => {
-  //       this.imageUrl = event.target.result;
-  //     };
-  //   }
-  // }
 
   onSelectedFile(e: any) {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      console.log(file);
       const storage = getStorage();
       const storageRef = ref(storage, 'profileImages/' + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -63,6 +55,10 @@ export class ProfileComponent {
         'state_changed',
         (snapshot) => {
           // Handle the upload progress
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+          console.log('Upload is ' + progress + '% done');
         },
         (error) => {
           // Handle unsuccessful uploads
@@ -73,7 +69,6 @@ export class ProfileComponent {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log('File available at', downloadURL);
             this.imageUrl = downloadURL;
-            // this.profileForm.patchValue({ profileImage: downloadURL });
           });
         }
       );
@@ -85,8 +80,18 @@ export class ProfileComponent {
     const user = auth.currentUser;
     if (user) {
       const { name } = this.profileForm.value;
-      updateProfile(user, { displayName: name, photoURL: this.imageUrl });
-      console.log('User details updated:', user);
+
+      updateProfile(user, { displayName: name, photoURL: this.imageUrl }).then(
+        () => {
+          user.reload().then(() => {
+            this.userService.userSubject.next({
+              name: user.displayName || '',
+              email: user.email || '',
+              profileImage: user.photoURL || '',
+            });
+          });
+        }
+      );
     }
   }
 }
