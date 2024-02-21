@@ -6,8 +6,8 @@
 
 <h1 align="center">Dev Links</h1>
 
- <h4 >
-	🚧  Dev Links Project is Under construction...  🚧
+ <h4 align="center">
+	🚧  Dev Links Under construction...  🚧
 </h4>
 
 <hr>
