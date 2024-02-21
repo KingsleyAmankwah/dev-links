@@ -4,6 +4,7 @@ import { ListComponent } from './pages/list/list.component';
 import { PreviewComponent } from './pages/preview/preview.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
+import { authGuard } from '../guards/auth.guard';
 
 export const linkRoutes: Routes = [
   {
@@ -26,6 +27,7 @@ export const linkRoutes: Routes = [
         component: ProfileComponent,
       },
     ],
+    canActivate: [authGuard],
   },
 
   {
