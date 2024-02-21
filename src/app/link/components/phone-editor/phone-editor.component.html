@@ -17,10 +17,20 @@
     ></path>
     <defs></defs>
   </svg>
+
+  @if(imageUrl){
+  <img
+    class="w-32 h-32 rounded-full absolute top-16"
+    [src]="imageUrl"
+    alt="Profile"
+  />
+  }@else {
   <div class="w-32 h-32 rounded-full bg-gray-200 absolute top-16"></div>
-  <div class="w-48 h-4 rounded-full bg-gray-200 absolute top-52"></div>
-  <!-- johndoegmail.com @for(linkPreview of showLinkPreviews; track showLinkPreviews;
-let index = $index;){
-<div class="absolute">Preview of link #{{ index + 1 }}</div>
-} -->
+  }
+  <div class="h-4 text-black font-bold absolute top-52">
+    {{ name }}
+  </div>
+  <div class="absolute top-60 text-xs">
+    {{ email }}
+  </div>
 </div>
