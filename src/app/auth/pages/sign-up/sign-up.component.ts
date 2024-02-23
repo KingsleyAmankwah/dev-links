@@ -3,6 +3,7 @@ import { InputComponent } from '../../components/input/input.component';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sign-up',
