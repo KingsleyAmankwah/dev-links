@@ -1,5 +1,5 @@
 export interface formLinks {
-  id: string;
-  title: string;
+  id: number;
+  platform: string;
   url: string;
 }
