@@ -1,11 +1,13 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: 'AIzaSyB7ckUoEvixCZIznC6j-lycKC76VXmZr6w',
-    authDomain: 'dev-links-bf2b1.firebaseapp.com',
-    projectId: 'dev-links-bf2b1',
-    storageBucket: 'dev-links-bf2b1.appspot.com',
-    messagingSenderId: '379857548190',
-    appId: '1:379857548190:web:c32a54103f7f15507edc8f',
+    apiKey: 'AIzaSyCWf7YJCzi0NUZJtR8aTlGK-SHVVWMQu_4',
+    authDomain: 'dev-links-12983.firebaseapp.com',
+    projectId: 'dev-links-12983',
+    storageBucket: 'dev-links-12983.appspot.com',
+    messagingSenderId: '988723098598',
+    appId: '1:988723098598:web:24f2cde7b0c22a0c5adc27',
   },
 };
+
+
