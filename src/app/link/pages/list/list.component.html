@@ -6,7 +6,7 @@
     <app-phone-editor />
   </div>
   <form
-    [formGroup]="linkForm"
+    [formGroup]="listFormGroup"
     (ngSubmit)="onSubmit()"
     class="grid min-h-[785px] grid-rows-[auto_1fr_auto] rounded-xl bg-white lg:h-[819px] sticky"
   >
@@ -35,6 +35,7 @@
         *ngFor="let formLink of formLinks; index as i; trackBy: trackByFn"
         [index]="i"
         (removeFormLink)="removeFormLink(i)"
+        [linkFormGroup]="getLinkFormGroup(i)"
         cdkDrag
       />
 
@@ -62,10 +63,12 @@
 
     <div
       class="rounded-bl-xl rounded-br-xl border-t border-borders bg-white px-6 pb-4 pt-6 sm:px-10 sm:pb-6 sm:text-right"
+      *ngIf="formLinks.length > 0"
     >
       <button
+        [disabled]="listFormGroup.invalid"
         type="submit"
-        class="inline-flex h-[46px] w-full items-center justify-center rounded-lg border border-transparent bg-[#633cff] px-7 font-semibold text-white transition duration-150 ease-in-out hover:bg-purple-hover-color focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-purple-hover-color disabled:bg-purple-hover-color sm:w-28"
+        class="inline-flex h-[46px] disabled:cursor-default disabled:bg-[#886df5] w-full items-center justify-center rounded-lg border border-transparent bg-[#633cff] px-7 font-semibold text-white transition duration-150 ease-in-out hover:bg-purple-hover-color focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-purple-hover-color disabled:bg-purple-hover-color sm:w-28"
       >
         Save
       </button>
