@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LinkFormComponent } from '../../components/link-form/link-form.component';
 import { formLinks } from '../../interfaces';
@@ -16,7 +16,10 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
 } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-list',
@@ -38,27 +41,45 @@ export class ListComponent {
   formLinks: formLinks[] = [];
   linkCounter = 0;
   showLinkPreviews: boolean[] = [];
-  linkForm!: FormGroup;
+  listFormGroup!: FormGroup;
 
-  fb = inject(FormBuilder);
-
-  ngOnInit() {
-    this.linkForm = this.fb.group({
+  userService = inject(UserService);
+  constructor(private fb: FormBuilder) {
+    this.listFormGroup = this.fb.group({
       links: this.fb.array([]),
     });
   }
 
-  get links(): FormArray {
-    return this.linkForm.get('links') as FormArray;
+  getLinkFormGroup(index: number): FormGroup {
+    const linkFormArray = this.listFormGroup.get('links') as FormArray;
+    const linkFormGroup = linkFormArray.at(index) as FormGroup;
+
+    return linkFormGroup;
   }
 
   addLink() {
-    const newLink: formLinks = {
-      id: `link${this.linkCounter++}`,
-      title: '',
-      url: '',
-    };
-    this.formLinks.push(newLink);
+    const linksArray = this.listFormGroup.get('links') as FormArray;
+    linksArray.push(
+      this.fb.group(
+        {
+          platform: ['', Validators.required],
+          url: ['', Validators.required],
+        },
+        { validators: this.validateUrlBasedOnPlatform('platform', 'url') }
+      )
+    );
+
+    const newLinkIndex = this.formLinks.length;
+    const linkFormGroup = this.getLinkFormGroup(newLinkIndex);
+
+    if (linkFormGroup) {
+      this.formLinks.push({
+        id: newLinkIndex,
+        platform: linkFormGroup.get('platform')?.value || '',
+        url: linkFormGroup.get('url')?.value || '',
+      });
+      this.showLinkPreviews.push(true);
+    }
     this.showLinkPreviews.push(true);
   }
 
@@ -78,9 +99,80 @@ export class ListComponent {
     return item.id;
   }
 
-  // linkForm = this.fb.group({});
+  async onSubmit() {
+    const links = this.listFormGroup.get('links') as FormArray;
+    const linksData = links.value;
 
-  onSubmit() {
-    console.log(this.linkForm.value);
+    console.log('Form Links before Submit:', linksData);
+
+    await this.userService.saveLinks(linksData);
+  }
+
+  validateUrlBasedOnPlatform(
+    platformControlName: string,
+    urlControlName: string
+  ) {
+    return (group: FormGroup): ValidationErrors | null => {
+      const platform = group.get(platformControlName)?.value;
+      const url = group.get(urlControlName)?.value;
+
+      if (platform && url) {
+        let pattern: RegExp;
+
+        switch (platform.name) {
+          case 'GitHub':
+            pattern = /^https:\/\/github\.com\/.+$/;
+            break;
+          case 'Twitter':
+            pattern = /^https:\/\/twitter\.com\/.+$/;
+            break;
+          case 'LinkedIn':
+            pattern = /^https:\/\/www\.linkedin\.com\/.+$/;
+            break;
+          case 'Frontend Mentor':
+            pattern = /^https:\/\/www\.frontendmentor\.io\/.+$/;
+            break;
+          case 'YouTube':
+            pattern = /^https:\/\/www\.youtube\.com\/.+$/;
+            break;
+          case 'Facebook':
+            pattern = /^https:\/\/www\.facebook\.com\/.+$/;
+            break;
+          case 'Codepen':
+            pattern = /^https:\/\/codepen\.io\/.+$/;
+            break;
+          case 'Twitch':
+            pattern = /^https:\/\/www\.twitch\.tv\/.+$/;
+            break;
+          case 'Devto':
+            pattern = /^https:\/\/dev\.to\/.+$/;
+            break;
+          case 'Codewars':
+            pattern = /^https:\/\/www\.codewars\.com\/.+$/;
+            break;
+          case 'Hashnode':
+            pattern = /^https:\/\/hashnode\.com\/.+$/;
+            break;
+          case 'FreeCodeCamp':
+            pattern = /^https:\/\/www\.freecodecamp\.org\/.+$/;
+            break;
+          case 'GitLab':
+            pattern = /^https:\/\/gitlab\.com\/.+$/;
+            break;
+          case 'Stack Overflow':
+            pattern = /^https:\/\/stackoverflow\.com\/.+$/;
+            break;
+
+          default:
+            pattern = /^https?:\/\/.+$/; // Default pattern
+        }
+
+        if (!pattern.test(url)) {
+          return { invalidUrl: true };
+        }
+      }
+
+      return null;
+    };
   }
 }
