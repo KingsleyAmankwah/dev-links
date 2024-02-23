@@ -11,6 +11,7 @@ import {
 } from '@firebase/storage';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -92,6 +93,15 @@ export class ProfileComponent {
           });
         }
       );
+
+      Swal.fire({
+        title: 'Profile Updated!',
+        text: 'Your profile has been updated successfully!',
+        icon: 'success',
+        position: 'top-end',
+        timer: 3000,
+        showConfirmButton: false,
+      });
     }
   }
 }
