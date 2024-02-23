@@ -1,5 +1,6 @@
-<div
+<form
   class="grid grid-cols-[auto_1fr_auto] items-center gap-x-2 rounded-xl bg-gray-50 p-5 my-4 cursor-grab"
+  [formGroup]="linkFormGroup"
 >
   <span class="cursor-pointer"
     ><img
@@ -13,31 +14,37 @@
   <button class="text-right" type="button" (click)="onRemoveFormLinkClicked()">
     Remove
   </button>
-  <div class="col-span-full mt-3">
+  <div class="form-group col-span-full mt-3">
     <div class="relative">
       <p class="text-xs">Platform</p>
-      <label
-        class="mt-1 flex h-12 w-full items-center justify-between rounded-lg border border-borders bg-white px-4"
+
+      <div
+        class="mt-1 flex h-12 w-full items-center justify-between rounded-lg border border-borders bg-white px-4 cursor-pointer"
         (click)="onSelectFormClicked()"
       >
-        @if(selectedPlatform){
-        <div class="flex flex-row md:space-x-5 items-center">
+        <div class="flex gap-3">
           <img
+            *ngIf="selectedPlatform"
             [src]="selectedPlatform.ImageURL"
             width="16"
             height="16"
             alt="'logo'"
             class="hidden md:block"
           />
-
-          <p class="text-[#737373]">{{ selectedPlatform.name }}</p>
+          <input
+            type="text"
+            [value]="
+              selectedPlatform ? selectedPlatform.name : 'Select Platform'
+            "
+            readonly
+            class="text-[#737373] outline-none border-none cursor-pointer"
+            formControlName="platform"
+            placeholder="Select Platform"
+          />
         </div>
-        }@else{
-        <p class="text-[#737373]">Select Platform</p>
-        } @if(showPlatforms){
 
         <svg
-          class="transform rotate-180"
+          [class]="showPlatforms ? 'rotate-180' : ''"
           width="14"
           height="9"
           fill="none"
@@ -45,24 +52,6 @@
         >
           <path stroke="#633CFF" stroke-width="2" d="m1 1 6 6 6-6"></path>
         </svg>
-        }@else {
-
-        <svg
-          class="transform"
-          width="14"
-          height="9"
-          fill="none"
-          viewBox="0 0 14 9"
-        >
-          <path stroke="#633CFF" stroke-width="2" d="m1 1 6 6 6-6"></path>
-        </svg>
-        }
-
-        <button type="button" class="absolute inset-0 h-full w-full"></button>
-
-        <div class="absolute right-10" style="display: none">
-          <p class="pointer-events-none text-sm text-red"></p>
-        </div>
 
         @if(showPlatforms){
         <ul
@@ -88,10 +77,10 @@
           }
         </ul>
         }
-      </label>
+      </div>
     </div>
   </div>
-  <div class="col-span-full">
+  <div class="form-group col-span-full">
     <div class="my-2 block w-full">
       <label class="block text-xs" for="link_0"><span>Link</span></label>
       <div class="relative flex items-center border-0 p-0">
@@ -104,6 +93,7 @@
           class="h-12 w-full rounded-lg border border-borders placeholder:text-[#737373] focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
           placeholder="e.g. https://www.github.com/johnappleseed"
           id="link_0"
+          formControlName="url"
         />
         <div class="absolute right-4" style="display: none">
           <p class="pointer-events-auto text-sm text-red"></p>
@@ -111,4 +101,4 @@
       </div>
     </div>
   </div>
-</div>
+</form>
