@@ -33,4 +33,18 @@
   <div class="absolute top-60 text-xs">
     {{ email }}
   </div>
+
+  <div class="absolute top-80 text-xs text-center">
+    <div *ngIf="socialMediaLinks.length > 0">
+      <ul>
+        <li *ngFor="let link of socialMediaLinks">
+          <img [src]="link.platform.ImageURL" alt="{{ link.platform.name }}" />
+          <a [href]="link.url" target="_blank">{{ link.platform.name }}</a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="socialMediaLinks.length === 0">
+      <p>No social media links available.</p>
+    </div>
+  </div>
 </div>
