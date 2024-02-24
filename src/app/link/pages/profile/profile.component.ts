@@ -11,7 +11,15 @@ import {
 } from '@firebase/storage';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  DocumentReference,
+  DocumentData,
+} from 'firebase/firestore';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +34,7 @@ export class ProfileComponent {
 
   fb = inject(FormBuilder);
   userService = inject(UserService);
+  authService = inject(AuthService);
 
   profileForm = this.fb.group({
     name: [''],
@@ -82,26 +91,52 @@ export class ProfileComponent {
     if (user) {
       const { name } = this.profileForm.value;
 
+      // Update the user's profile in Firebase Authentication
       updateProfile(user, { displayName: name, photoURL: this.imageUrl }).then(
-        () => {
-          user.reload().then(() => {
-            this.userService.userSubject.next({
-              name: user.displayName || '',
-              email: user.email || '',
-              profileImage: user.photoURL || '',
-            });
+        async () => {
+          // Reload the user to get the updated details
+          await user.reload();
+
+          // Update the user details in the UserService
+          this.userService.userSubject.next({
+            id: user.uid,
+            name: user.displayName || '',
+            email: user.email || '',
+            profileImage: user.photoURL || '',
+          });
+
+          // Get Firestore instance
+          const db = getFirestore();
+
+          // Create a reference to the user document in Firestore
+          const userDocRef: DocumentReference<DocumentData> = doc(
+            db,
+            'users',
+            user.uid
+          );
+
+          // Update user details in Firestore
+          await setDoc(userDocRef, {
+            displayName: user.displayName,
+            email: user.email,
+            // Add more user data as needed
+            profileImage: this.imageUrl, // Save profile image URL to Firestore
+          });
+
+          Swal.fire({
+            title: 'Profile Updated!',
+            text: 'Your profile has been updated successfully!',
+            icon: 'success',
+            position: 'top-end',
+            timer: 3000,
+            showConfirmButton: false,
           });
         }
       );
-
-      Swal.fire({
-        title: 'Profile Updated!',
-        text: 'Your profile has been updated successfully!',
-        icon: 'success',
-        position: 'top-end',
-        timer: 3000,
-        showConfirmButton: false,
-      });
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
