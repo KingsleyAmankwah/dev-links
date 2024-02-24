@@ -5,7 +5,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signOut,
 } from 'firebase/auth';
+import {
+  DocumentData,
+  DocumentReference,
+  doc,
+  getFirestore,
+  setDoc,
+} from 'firebase/firestore';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -13,6 +21,22 @@ import Swal from 'sweetalert2';
 })
 export class AuthService {
   router = inject(Router);
+  auth = getAuth();
+
+  private userId: string | null = null;
+  private db = getFirestore();
+
+  setUserId(userId: string) {
+    this.userId = userId;
+  }
+
+  getUserId(): string | null {
+    return this.userId;
+  }
+
+  getCurrentUser() {
+    return this.auth.currentUser;
+  }
 
   async signUp(email: string, password: string, name: string): Promise<void> {
     const auth = getAuth();
@@ -25,6 +49,21 @@ export class AuthService {
 
       if (userCredential.user) {
         await updateProfile(userCredential.user, { displayName: name });
+        this.setUserId(userCredential.user.uid);
+
+        const userData = {
+          displayName: name,
+          email: email,
+        };
+
+        const userDocRef: DocumentReference<DocumentData> = doc(
+          this.db,
+          'users',
+          userCredential.user.uid
+        );
+
+        await setDoc(userDocRef, userData);
+
         Swal.fire({
           title: 'Account Created!',
           text: 'Your account has been created successfully!',
@@ -33,7 +72,7 @@ export class AuthService {
           timer: 3000,
           showConfirmButton: false,
         });
-        this.router.navigate(['/link']);
+        this.router.navigate(['link/list']);
       }
     } catch (error: any) {
       Swal.fire({
@@ -56,6 +95,7 @@ export class AuthService {
       );
 
       if (userCredential.user) {
+        this.setUserId(userCredential.user.uid);
         Swal.fire({
           title: 'Welcome!',
           text: 'You have been logged in successfully!',
@@ -64,7 +104,7 @@ export class AuthService {
           timer: 3000,
           showConfirmButton: false,
         });
-        this.router.navigate(['/link']);
+        this.router.navigate(['link/list']);
       }
     } catch (error: any) {
       Swal.fire({
@@ -74,6 +114,15 @@ export class AuthService {
         timer: 3000,
         showConfirmButton: false,
       });
+    }
+  }
+  async logout() {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      this.router.navigate(['/auth']);
+    } catch (error: any) {
+      console.error('Error during logout: ', error);
     }
   }
 
