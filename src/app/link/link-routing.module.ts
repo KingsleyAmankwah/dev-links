@@ -41,3 +41,9 @@ export const linkRoutes: Routes = [
     ],
   },
 ];
+
+// {
+// path: 'preview/:userId', // Update the path to include the dynamic parameter
+// component: PreviewComponent,
+// canActivate: [authGuard],
+// },
