@@ -1,9 +1,9 @@
-<nav class="sm:px-6 sm:pt-6">
+<nav class="sm:px-6 sm:pt-6" *ngIf="this.isLoggedIn">
   <div
     class="relative flex justify-between gap-x-4 p-4 sm:rounded-xl sm:bg-white"
   >
     <button
-      class="cursor-pointer inline-flex h-[46px] w-full items-center justify-center rounded-lg border border-[#633cff] bg-white px-7 font-semibold text-[#633cff] shadow-sm transition duration-150 ease-in-out hover:bg-light-purple focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 sm:w-max"
+      class="cursor-pointer inline-flex h-[46px] w-full text-xs items-center justify-center rounded-lg border border-[#633cff] bg-white px-7 font-semibold text-[#633cff] shadow-sm transition duration-150 ease-in-out hover:bg-light-purple focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 sm:w-max"
       routerLink="../list"
     >
       Back to Editor
@@ -11,7 +11,7 @@
 
     <button
       type="button"
-      class="inline-flex h-[46px] w-full items-center justify-center rounded-lg border border-transparent bg-[#633cff] px-7 font-semibold text-white transition duration-150 ease-in-out hover:bg-[#d1c5f8] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-purple-hover-color disabled:bg-purple-hover-color sm:w-max"
+      class="inline-flex h-[46px] w-full items-center text-xs justify-center rounded-lg border border-transparent bg-[#633cff] px-7 font-semibold text-white transition duration-150 ease-in-out hover:bg-[#d1c5f8] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-purple-hover-color disabled:bg-purple-hover-color sm:w-max"
       (click)="copyLink()"
     >
       Share Link
@@ -22,5 +22,5 @@
 <main
   class="relative mx-auto mt-14 rounded-xl pb-10 text-center sm:mt-32 sm:w-[600px] sm:bg-white sm:py-12 sm:shadow-lg"
 >
-  <app-phone-editor />
+  <app-phone-editor [userId]="userId" />
 </main>
