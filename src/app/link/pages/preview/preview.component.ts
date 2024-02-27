@@ -16,18 +16,28 @@ export class PreviewComponent {
   authService = inject(AuthService);
   route = inject(ActivatedRoute);
 
+  isLoggedIn = this.authService.getCurrentUser() !== null;
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.userId = params['userId'];
     });
   }
 
-  copyLink() {
-    const userId = this.userId || this.authService.getUserId();
+  async copyLink() {
+    const userId = this.userId || (await this.authService.getUserId());
     if (userId) {
       const profileLink = `/link/preview/${userId}`;
       const url = window.location.origin + profileLink;
 
+      // Check if the clipboard API is available
+      if (!navigator.clipboard) {
+        alert(
+          'Your browser does not support the clipboard API. Please copy the link manually: ' +
+            url
+        );
+        return;
+      }
       // Copy the link to the clipboard
       navigator.clipboard
         .writeText(url)
@@ -35,11 +45,11 @@ export class PreviewComponent {
           alert('Link copied to clipboard');
         })
         .catch((err) => {
+          alert('Failed to copy link. Please try again.');
           console.error('Failed to copy: ', err);
         });
     } else {
-      console.error('User is not authenticated. Unable to copy link.');
+      alert('You must be logged in to share your page.');
     }
   }
 }
-
