@@ -30,16 +30,27 @@
   <div class="h-4 text-black font-bold absolute top-52">
     {{ name }}
   </div>
-  <div class="absolute top-60 text-xs">
+  <div class="absolute top-60 text-xs mb-7">
     {{ email }}
   </div>
 
-  <div class="absolute top-80 text-xs text-center">
+  <div class="absolute top-72 text-xs text-center w-2/4">
     <div *ngIf="socialMediaLinks.length > 0">
       <ul>
         <li *ngFor="let link of socialMediaLinks">
-          <img [src]="link.platform.ImageURL" alt="{{ link.platform.name }}" />
-          <a [href]="link.url" target="_blank">{{ link.platform.name }}</a>
+          <a
+            [href]="link.url"
+            target="_blank"
+            class="social-link flex space-x-3 text-white my-4 p-2 rounded-lg"
+            [style.background-color]="link.platform.color"
+          >
+            <img
+              [src]="link.platform.ImageURL"
+              alt="{{ link.platform.name }}"
+              class=""
+            />
+            <p>{{ link.platform.name }}</p>
+          </a>
         </li>
       </ul>
     </div>
