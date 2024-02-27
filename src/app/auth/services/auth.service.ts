@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import {
   DocumentData,
@@ -23,15 +24,28 @@ export class AuthService {
   router = inject(Router);
   auth = getAuth();
 
-  private userId: string | null = null;
-  private db = getFirestore();
+  userId: string | null = null;
+  db = getFirestore();
 
   setUserId(userId: string) {
     this.userId = userId;
   }
 
-  getUserId(): string | null {
-    return this.userId;
+  getUserId(): Promise<string | null> {
+    return new Promise<string | null>((resolve, reject) => {
+      const auth = getAuth();
+      onAuthStateChanged(
+        auth,
+        (user) => {
+          if (user) {
+            resolve(user.uid);
+          } else {
+            resolve(null);
+          }
+        },
+        reject
+      );
+    });
   }
 
   getCurrentUser() {
