@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './phone-editor.component.css',
 })
 export class PhoneEditorComponent {
+  @Input() userId!: string;
   name: string | null = null;
   email: string | null = null;
   imageUrl: string | null = null;
@@ -21,19 +22,37 @@ export class PhoneEditorComponent {
   userService = inject(UserService);
 
   ngOnInit() {
-    this.subscription = this.userService.user.subscribe(async (user) => {
-      if (user) {
-        this.name = user.name;
-        this.email = user.email;
-        this.imageUrl = user.profileImage;
-        this.socialMediaLinks = user.socialMediaLinks || [];
-      } else {
-        this.name = null;
-        this.email = null;
-        this.imageUrl = null;
-        this.socialMediaLinks = [];
-      }
-    });
+    if (this.userId) {
+      this.subscription = this.userService
+        .fetchUserDetails(this.userId)
+        .subscribe((user) => {
+          if (user) {
+            this.name = user.name;
+            this.email = user.email;
+            this.imageUrl = user.profileImage;
+            this.socialMediaLinks = user.socialMediaLinks || [];
+          } else {
+            this.name = null;
+            this.email = null;
+            this.imageUrl = null;
+            this.socialMediaLinks = [];
+          }
+        });
+    } else {
+      this.subscription = this.userService.user.subscribe((user) => {
+        if (user) {
+          this.name = user.name;
+          this.email = user.email;
+          this.imageUrl = user.profileImage;
+          this.socialMediaLinks = user.socialMediaLinks || [];
+        } else {
+          this.name = null;
+          this.email = null;
+          this.imageUrl = null;
+          this.socialMediaLinks = [];
+        }
+      });
+    }
   }
 
   ngOnDestroy() {
