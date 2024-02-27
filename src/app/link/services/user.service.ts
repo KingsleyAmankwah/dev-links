@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { userDetails } from '../../auth/interfaces';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
   CollectionReference,
@@ -8,6 +8,8 @@ import {
   DocumentReference,
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   getFirestore,
   query,
@@ -15,14 +17,15 @@ import {
 } from 'firebase/firestore';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../auth/services/auth.service';
+import { formLinks } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   public userSubject = new BehaviorSubject<userDetails | null>(null);
-  private db = getFirestore();
   user = this.userSubject.asObservable();
+  db = getFirestore();
 
   authService = inject(AuthService);
 
@@ -46,7 +49,7 @@ export class UserService {
     });
   }
 
-  async saveLinks(links: any[]): Promise<void> {
+  async saveLinks(links: formLinks[]): Promise<void> {
     const user = this.authService.getCurrentUser();
 
     if (user) {
@@ -70,6 +73,8 @@ export class UserService {
           console.error('Error adding document: ', error);
         }
       }
+      // Fetch the social media links for the user
+      await this.fetchSocialMediaLinks(user.uid);
 
       Swal.fire({
         title: 'Links Saved!',
@@ -89,12 +94,10 @@ export class UserService {
       linksCollection,
       where('userRef', '==', userId)
     );
-    console.log('Fetching social media links for user: ', userId);
+    // console.log('Fetching social media links for user: ', userId);
     try {
       const linksSnapshot = await getDocs(userLinksQuery);
-      console.log('Links snapshot: ', linksSnapshot);
       const socialMediaLinks = linksSnapshot.docs.map((doc) => doc.data());
-      console.log(socialMediaLinks);
 
       // Retrieve existing user details
       const existingUserDetails = this.userSubject.getValue() as userDetails;
@@ -113,5 +116,53 @@ export class UserService {
     } catch (error) {
       console.error('Error fetching social media links: ', error);
     }
+  }
+
+  fetchUserDetails(userId: string): Observable<userDetails> {
+    return new Observable<userDetails>((subscriber) => {
+      const userDocRef: DocumentReference = doc(this.db, 'users', userId);
+
+      getDoc(userDocRef)
+        .then((userDoc) => {
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const userDetails: userDetails = {
+              id: userId,
+              name: userData['displayName'],
+              email: userData['email'],
+              profileImage: userData['profileImage'],
+              socialMediaLinks: [],
+            };
+
+            // Fetch the social media links for the user
+            const linksCollection: CollectionReference = collection(
+              this.db,
+              'links'
+            );
+            const userLinksQuery = query(
+              linksCollection,
+              where('userRef', '==', userId)
+            );
+
+            getDocs(userLinksQuery)
+              .then((linksSnapshot) => {
+                userDetails.socialMediaLinks = linksSnapshot.docs.map((doc) =>
+                  doc.data()
+                );
+
+                subscriber.next(userDetails);
+                subscriber.complete();
+              })
+              .catch((error) => {
+                subscriber.error(error);
+              });
+          } else {
+            subscriber.error('User not found');
+          }
+        })
+        .catch((error) => {
+          subscriber.error(error);
+        });
+    });
   }
 }
