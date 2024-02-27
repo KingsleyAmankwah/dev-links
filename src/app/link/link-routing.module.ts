@@ -31,6 +31,11 @@ export const linkRoutes: Routes = [
   },
 
   {
+    path: 'preview/:userId',
+    component: PreviewComponent,
+  },
+
+  {
     path: 'preview',
     component: EmptyLayoutComponent,
     children: [
@@ -39,11 +44,7 @@ export const linkRoutes: Routes = [
         component: PreviewComponent,
       },
     ],
+
+    canActivate: [authGuard],
   },
 ];
-
-// {
-// path: 'preview/:userId', // Update the path to include the dynamic parameter
-// component: PreviewComponent,
-// canActivate: [authGuard],
-// },
