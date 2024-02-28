@@ -88,6 +88,13 @@ export class ListComponent {
     this.showLinkPreviews.splice(index, 1);
   }
 
+  removeAllFormLinks() {
+    while (this.formLinks.length > 0) {
+      this.formLinks.splice(0, 1);
+      this.showLinkPreviews.splice(0, 1);
+    }
+  }
+
   drop(event: CdkDragDrop<formLinks[]>): void {
     console.log('Dropped', event);
     const updatedFormLinks = [...this.formLinks];
@@ -106,6 +113,7 @@ export class ListComponent {
     console.log('Form Links before Submit:', linksData);
 
     await this.userService.saveLinks(linksData);
+    this.removeAllFormLinks();
   }
 
   validateUrlBasedOnPlatform(
