@@ -1,13 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { InputComponent } from '../../components/input/input.component';
 import { RouterLink } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { ButtonComponent } from '../../components/button/button.component';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [InputComponent, RouterLink, ReactiveFormsModule],
+  imports: [InputComponent, RouterLink, ReactiveFormsModule, ButtonComponent],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css',
 })
@@ -18,8 +24,12 @@ export class SignInComponent {
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required]],
   });
+
+  formControlName(name: string) {
+    return this.loginForm.get(name) as FormControl;
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {
@@ -29,4 +39,30 @@ export class SignInComponent {
       this.isLoading = false;
     }
   }
+
+  inputs = [
+    {
+      type: 'email',
+      label: 'Email',
+      control: 'email',
+      placeholder: 'Enter your email address',
+      errorMessage: {
+        required: 'Email is required',
+        email: 'Invalid email address',
+        pattern: 'Invalid email address',
+      } as Record<string, string>,
+      icon: '/assets/images/icon-email.svg',
+    },
+
+    {
+      type: 'password',
+      label: 'Password',
+      control: 'password',
+      placeholder: 'Enter your password',
+      errorMessage: {
+        required: 'Password is required',
+      } as Record<string, string>,
+      icon: '/assets/images/icon-password.svg',
+    },
+  ];
 }

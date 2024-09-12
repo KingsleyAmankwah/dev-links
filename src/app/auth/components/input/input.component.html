@@ -1,21 +1,25 @@
 <div class="form-group my-2 flex flex-col w-full">
-  <label class="text-[12px] text-[#333333] pb-2" for="{{ type }}">{{
-    label
-  }}</label>
+  <label [for]="label" class="text-[12px] text-[#333333] pb-2">
+    {{ label }} <span *ngIf="required" class="text-red-500">*</span>
+  </label>
   <div class="relative flex">
     <img
       [src]="inputIcon"
       class="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2"
-      alt="{{ name }}-icon"
     />
     <input
-      [type]="type"
+      class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4 aria-[invalid=true]:border-[#d50000] aria-[invalid=true]:border-2"
       [placeholder]="placeholder"
-      [name]="name"
-      formControlName="name"
-      [id]="name"
-      class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
-      autocomplete="off"
+      [formControl]="control!"
+      [type]="type"
+      [attr.aria-invalid]="hasError"
     />
   </div>
+
+  <span
+    *ngIf="hasError && errorType && errorMessage[errorType]"
+    class="text-xs text-red-600 flex w-auto items-center gap-[8px] mt-1"
+  >
+    {{ errorMessage[errorType] }}
+  </span>
 </div>

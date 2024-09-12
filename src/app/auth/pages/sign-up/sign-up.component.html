@@ -6,64 +6,22 @@
     </p>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-group my-2 flex flex-col w-full">
-        <label class="text-[12px] text-[#333333] pb-2"> Full Name </label>
-        <div class="relative flex">
-          <img
-            src="../assets/images/icon-changes-saved.svg"
-            class="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2"
-          />
-          <input
-            class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
-            autocomplete="off"
-            placeholder="Enter your name"
-            formControlName="name"
-            type="text"
-          />
-        </div>
-      </div>
-      <div class="form-group my-2 flex flex-col w-full">
-        <label class="text-[12px] text-[#333333] pb-2"> Email </label>
-        <div class="relative flex">
-          <img
-            src="../assets/images/icon-email.svg"
-            class="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2"
-          />
-          <input
-            class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
-            autocomplete="off"
-            placeholder="Enter your email"
-            formControlName="email"
-            type="email"
-          />
-        </div>
-      </div>
+      @for (input of inputs; track $index) {
+      <app-input
+        [inputIcon]="input.icon"
+        [type]="input.type"
+        [label]="input.label"
+        [control]="formControlName(input.control)"
+        [placeholder]="input.placeholder"
+        [errorMessage]="input.errorMessage"
+        [required]="true"
+      />
+      }
 
-      <div class="form-group my-2 flex flex-col w-full">
-        <label class="text-[12px] text-[#333333] pb-2"> Password </label>
-        <div class="relative flex">
-          <img
-            src="../assets/images/icon-password.svg"
-            class="absolute pointer-events-none left-4 top-1/2 -translate-y-1/2"
-          />
-          <input
-            class="h-12 w-full rounded-lg border border-gray-300 placeholder:text-gray-400 focus:outline-indigo-500 focus:ring-indigo-500 pl-11 pr-4"
-            autocomplete="off"
-            placeholder="Enter  password"
-            formControlName="password"
-            type="password"
-          />
-        </div>
-      </div>
-
-      <small> Password must be at least 6 characters </small>
-
-      <button
-        type="submit"
-        class="inline-flex my-4 h-[46px] w-full items-center justify-center rounded-lg border border-transparent bg-[#633cff] px-7 font-semibold text-white transition duration-150 ease-in-out hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-indigo-400"
-      >
-        Create new account
-      </button>
+      <app-button
+        [text]="isLoading ? 'Loading...' : 'Create new account'"
+        [disabled]="registerForm.invalid || isLoading"
+      />
     </form>
 
     <div class="flex flex-col md:flex-row justify-center items-center">
