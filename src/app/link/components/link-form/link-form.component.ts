@@ -22,12 +22,19 @@ export class LinkFormComponent {
   @Input() link!: formLinks;
   @Input() index!: number;
   @Input() linkFormGroup!: FormGroup;
-
+  @Input() errors: string | null = null;
   platforms = PLATFORMS;
   showPlatforms = false;
   selectedPlatform!: { id: Number; name: string; ImageURL: string };
 
   @Output() removeFormLink = new EventEmitter<number>();
+  @Output() linkFormValueChanges = new EventEmitter<FormGroup>();
+
+  ngOnInit() {
+    this.linkFormGroup.valueChanges.subscribe(() => {
+      this.linkFormValueChanges.emit(this.linkFormGroup);
+    });
+  }
 
   onRemoveFormLinkClicked() {
     this.removeFormLink.emit(this.index);
@@ -40,6 +47,5 @@ export class LinkFormComponent {
   onPlatformClicked(platform: { id: number; name: string; ImageURL: string }) {
     this.selectedPlatform = platform;
     this.linkFormGroup.get('platform')?.setValue(platform);
-    console.log(this.linkFormGroup.get('platform')?.value);
   }
 }

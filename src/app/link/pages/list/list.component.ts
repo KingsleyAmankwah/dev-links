@@ -42,7 +42,7 @@ export class ListComponent {
   linkCounter = 0;
   showLinkPreviews: boolean[] = [];
   listFormGroup!: FormGroup;
-
+  formErrors: string | null = null;
   userService = inject(UserService);
   constructor(private fb: FormBuilder) {
     this.listFormGroup = this.fb.group({
@@ -96,7 +96,6 @@ export class ListComponent {
   }
 
   drop(event: CdkDragDrop<formLinks[]>): void {
-    console.log('Dropped', event);
     const updatedFormLinks = [...this.formLinks];
     moveItemInArray(updatedFormLinks, event.previousIndex, event.currentIndex);
     this.formLinks = updatedFormLinks;
@@ -109,8 +108,6 @@ export class ListComponent {
   async onSubmit() {
     const links = this.listFormGroup.get('links') as FormArray;
     const linksData = links.value;
-
-    console.log('Form Links before Submit:', linksData);
 
     await this.userService.saveLinks(linksData);
     this.removeAllFormLinks();
@@ -172,7 +169,7 @@ export class ListComponent {
             break;
 
           default:
-            pattern = /^https?:\/\/.+$/; // Default pattern
+            pattern = /^https?:\/\/.+$/;
         }
 
         if (!pattern.test(url)) {

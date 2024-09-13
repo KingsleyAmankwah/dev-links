@@ -64,8 +64,8 @@ export class SignUpComponent {
   }
 
   onSubmit() {
+    this.isLoading = true;
     if (this.registerForm.valid) {
-      this.isLoading = true;
       const { name, email, password } = this.registerForm.value;
       this.authService.signUp(
         email as string,
@@ -113,7 +113,7 @@ export class SignUpComponent {
       errorMessage: {
         required: 'Password is required',
         pattern:
-          'Password must contain at least 6 characters including one uppercase letter, one lowercase letter, and one number',
+          'Password must contain at least 8 characters including one uppercase letter, one lowercase letter, and one number',
       } as Record<string, string>,
       icon: '/assets/images/icon-password.svg',
     },
